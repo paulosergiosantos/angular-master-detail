@@ -21,5 +21,14 @@ export class CategoryListComponent implements OnInit {
     );
   }
 
+  deleteCategory(category: Category) {
+    const result = confirm('Deseja realmente excluir este item?');
+    if (result) {
+      this.categoryService.delete(category.id).subscribe(
+        () => this.categories = this.categories.filter(element => element.id != category.id),
+        (error) => alert('Erro ao excluir categoria')
+      );
+    }
+  }
 
 }
