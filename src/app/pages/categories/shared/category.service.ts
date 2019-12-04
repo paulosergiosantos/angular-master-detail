@@ -51,12 +51,12 @@ export class CategoryService {
     );
   }
 
-  jsonDataToCategory(jsonData: any) {
+  jsonDataToCategory(jsonData: any): Category {
     return jsonData as Category;
   }
 
   jsonDataToCategories(jsonData: any[]): Category[] {
-    return jsonData.map(element => this.jsonDataToCategory(element));
+    return jsonData.map(element => element as Category);
   }
 
   handleError(error: any): Observable<any> {
