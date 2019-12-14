@@ -1,9 +1,10 @@
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import toastr from 'toastr';
 import { Category } from '../shared/category.model';
 import { CategoryService } from '../shared/category.service';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-category-form',
@@ -35,12 +36,51 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
     this.pageTitle = this.currentAction === 'new' ? 'Cadastro' : `Edição: ${this.category.name}`;
   }
   
-  setCurrentAction() {
+  submitForm() {
+    this.submittingForm = true;
+    if (this.currentAction == 'new') {
+      this.createCategory();
+    } else {
+      this.updateCategory();
+    }
+    this.submittingForm = false;
+  }
+
+  private createCategory() {
+    const newCategory = Object.assign(new Category(), this.categoryForm.value);
+    this.categoryService.create(newCategory).subscribe(
+      category => this.actionsFormSuccess(category),
+      error => this.actionsFormError(error)
+    )
+  }
+
+  private updateCategory() {
+    const updatedCategory = Object.assign(new Category(), this.categoryForm.value);
+    this.categoryService.update(updatedCategory).subscribe(
+      category => this.actionsFormSuccess(category),
+      error => this.actionsFormError(error)
+    )
+  }
+  
+  actionsFormSuccess(category: Category): void {
+    toastr.success('Sucesso');
+    this.router.navigateByUrl('categories', { skipLocationChange: true }).then(
+      () => this.router.navigate(['categories', category.id, 'edit']),
+    )
+  }
+  
+  private actionsFormError(error: any) {
+    toastr.error('Erro:', error);
+    this.submittingForm = false;
+    this.serverErrorMessages = JSON.parse(error._body).errors;
+  }
+
+  private setCurrentAction() {
     console.log(this.route.snapshot.url);
     this.currentAction = this.route.snapshot.url[0].path;
   }
 
-  buildCategoryForm() {
+  private buildCategoryForm() {
     this.categoryForm = this.formBuilder.group({
       id: [null],
       name:[null, [Validators.required, Validators.minLength(2)]],
@@ -48,7 +88,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
     });
   }
 
-  loadCategory() {
+  private loadCategory() {
     console.log(this.currentAction);
     if (this.currentAction !== 'new') {
       this.route.paramMap.pipe(
