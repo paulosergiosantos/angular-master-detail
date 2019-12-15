@@ -70,9 +70,9 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   }
   
   private actionsFormError(error: any) {
-    toastr.error('Erro:', error);
+    toastr.error(`${JSON.stringify(error)}`,'Erro');
     this.submittingForm = false;
-    this.serverErrorMessages = JSON.parse(error._body).errors;
+    this.serverErrorMessages = [`Falha na requisição ao servidor: ${error.statusText}`];
   }
 
   private setCurrentAction() {
