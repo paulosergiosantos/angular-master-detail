@@ -76,7 +76,6 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private setCurrentAction() {
-    console.log(this.route.snapshot.url);
     this.currentAction = this.route.snapshot.url[0].path;
   }
 
