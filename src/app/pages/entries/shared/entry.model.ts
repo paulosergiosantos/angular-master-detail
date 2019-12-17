@@ -6,11 +6,17 @@ export class Entry {
         renevue: 'Receita'
     }
 
-    constructor(public id?: number, public name?: string, public description?: string, public type?: string, public date?: string,
-        public paid?: boolean, public categoryId?: number, public category?: Category) {
+    constructor(public id?: number, public name?: string, public description?: string,
+        public type?: string, public date?: string, public paid?: boolean, public amount?: string,
+        public categoryId?: number, public category?: Category) {
     }
 
     get paidText(): string {
         return this.paid ? 'Pago' : 'Pendente';
+    }
+
+    get renevue(): boolean {
+        console.log(this.type === Entry.types.renevue);
+        return this.type === Entry.types.renevue;
     }
 }

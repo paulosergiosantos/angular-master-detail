@@ -52,11 +52,11 @@ export class EntryService {
     }
 
     jsonDataToEntry(jsonData: any): Entry {
-        return jsonData as Entry;
+        return Object.assign(new Entry(), jsonData);
     }
 
     jsonDataToEntries(jsonData: any[]): Entry[] {
-        return jsonData.map(element => element as Entry);
+        return jsonData.map(element => Object.assign(new Entry, element));
     }
 
     handleError(error: any): Observable<any> {
