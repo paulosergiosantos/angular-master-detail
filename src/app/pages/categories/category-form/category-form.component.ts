@@ -89,7 +89,6 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private loadCategory() {
-    console.log(this.currentAction);
     if (this.currentAction !== 'new') {
       this.route.paramMap.pipe(
         switchMap(params => this.categoryService.getById(+params.get('id')))

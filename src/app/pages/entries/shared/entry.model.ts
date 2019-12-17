@@ -16,7 +16,6 @@ export class Entry {
     }
 
     get renevue(): boolean {
-        console.log(this.type === Entry.types.renevue);
         return this.type === Entry.types.renevue;
     }
 }

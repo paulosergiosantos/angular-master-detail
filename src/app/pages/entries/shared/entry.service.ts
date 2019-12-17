@@ -15,30 +15,30 @@ export class EntryService {
 
     getAll(): Observable<Entry[]> {
         return this.http.get(this.apiPath).pipe(
-            catchError(this.handleError),
-            map(this.jsonDataToEntries)
+            catchError(EntryService.handleError),
+            map(EntryService.jsonDataToEntries)
         );
     }
 
     getById(id: number): Observable<Entry> {
         const url = `${this.apiPath}/${id}`;
         return this.http.get(url).pipe(
-            catchError(this.handleError),
-            map(this.jsonDataToEntry)
+            catchError(EntryService.handleError),
+            map(EntryService.jsonDataToEntry)
         );
     }
 
     create(entry: Entry): Observable<Entry> {
         return this.http.post(this.apiPath, entry).pipe(
-            catchError(this.handleError),
-            map(this.jsonDataToEntry)
+            catchError(EntryService.handleError),
+            map(EntryService.jsonDataToEntry)
         );
     }
 
     update(entry: Entry): Observable<Entry> {
         const url = `${this.apiPath}/${entry.id}/edit`;
         return this.http.put(url, entry).pipe(
-            catchError(this.handleError),
+            catchError(EntryService.handleError),
             map(() => entry)
         );
     }
@@ -46,20 +46,20 @@ export class EntryService {
     delete(id: number): Observable<Entry> {
         const url = `${this.apiPath}/${id}`;
         return this.http.delete(url).pipe(
-            catchError(this.handleError),
+            catchError(EntryService.handleError),
             map(() => null)
         );
     }
 
-    jsonDataToEntry(jsonData: any): Entry {
+    static jsonDataToEntry(jsonData: any): Entry {
         return Object.assign(new Entry(), jsonData);
     }
 
-    jsonDataToEntries(jsonData: any[]): Entry[] {
-        return jsonData.map(element => Object.assign(new Entry, element));
+    static jsonDataToEntries(jsonData: any[]): Entry[] {
+        return jsonData.map(EntryService.jsonDataToEntry);
     }
 
-    handleError(error: any): Observable<any> {
+    static handleError(error: any): Observable<any> {
         console.log('Erro na requisicao: ', error);
         return throwError(error);
     }
