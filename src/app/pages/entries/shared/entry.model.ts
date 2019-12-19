@@ -3,7 +3,7 @@ import { Category } from '../../categories/shared/category.model';
 export class Entry {
     static types = {
         expense: 'Despesa',
-        renevue: 'Receita'
+        revenue: 'Receita'
     }
 
     constructor(public id?: number, public name?: string, public description?: string,
@@ -15,7 +15,7 @@ export class Entry {
         return this.paid ? 'Pago' : 'Pendente';
     }
 
-    get renevue(): boolean {
-        return this.type === 'renevue';
+    get revenue(): boolean {
+        return this.type === 'revenue';
     }
 }

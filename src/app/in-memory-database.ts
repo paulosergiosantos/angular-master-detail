@@ -21,8 +21,8 @@ export class InMemoryDatabase implements InMemoryDbService {
             { id: 6, name: 'Farmácia', description: 'Medicamentos', categoryId: categories[1].id, category: categories[1], paid: true, date: '05/12/2019', amount: '78.80', type: 'expense' } as Entry,
             { id: 7, name: 'Plano Saúde', description: 'Co Participação', categoryId: categories[1].id, category: categories[1], paid: true, date: '05/12/2019', amount: '78.80', type: 'expense' } as Entry,
             { id: 8, name: 'Restaurante', description: 'Alimentação', categoryId: categories[2].id, category: categories[2], paid: true, date: '14/12/2019', amount: '78.80', type: 'expense' } as Entry,
-            { id: 9, name: 'Salário', description: 'Salário', categoryId: categories[3].id, category: categories[3], paid: false, date: '15/12/2019', amount: '1178.80', type: 'renevue' } as Entry,
-            { id: 10, name: 'Aluguel', description: 'Aluguel', categoryId: categories[4].id, category: categories[4], paid: false, date: '20/12/2019', amount: '178.80', type: 'renevue' } as Entry,
+            { id: 9, name: 'Salário', description: 'Salário', categoryId: categories[3].id, category: categories[3], paid: false, date: '15/12/2019', amount: '1178.80', type: 'revenue' } as Entry,
+            { id: 10, name: 'Aluguel', description: 'Aluguel', categoryId: categories[4].id, category: categories[4], paid: false, date: '20/12/2019', amount: '178.80', type: 'revenue' } as Entry,
         ];
 
         return { categories, entries };
