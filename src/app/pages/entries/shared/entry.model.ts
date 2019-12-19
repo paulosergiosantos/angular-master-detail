@@ -16,6 +16,6 @@ export class Entry {
     }
 
     get renevue(): boolean {
-        return this.type === Entry.types.renevue;
+        return this.type === 'renevue';
     }
 }
