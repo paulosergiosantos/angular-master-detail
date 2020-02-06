@@ -1,66 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { Category } from './category.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
-
-  private apiPath: string = 'api/categories';
-
-  constructor(private http: HttpClient) { }
-
-  getAll(): Observable<Category[]> {
-    return this.http.get(this.apiPath).pipe(
-      catchError(this.handleError),
-      map(this.jsonDataToCategories)
-    );
+export class CategoryService extends BaseResourceService<Category> {
+ 
+  constructor(http: HttpClient) { 
+    super(http, 'api/categories', Category.fromJson);
   }
 
-  getById(id: number): Observable<Category> {
-    const url = `${this.apiPath}/${id}`;
-    return this.http.get(url).pipe(
-      catchError(this.handleError),
-      map(this.jsonDataToCategory)
-    );
+  protected toResource(jsonData: any): Category {
+    return Object.assign(new Category(), jsonData);
   }
 
-  create(category: Category): Observable<Category> {
-    return this.http.post(this.apiPath, category).pipe(
-      catchError(this.handleError),
-      map(this.jsonDataToCategory)
-    );
-  }
-
-  update(category: Category): Observable<Category> {
-    const url = `${this.apiPath}/${category.id}/edit`;
-    return this.http.put(url, category).pipe(
-      catchError(this.handleError),
-      map(() => category)
-    );
-  }
-
-  delete(id: number): Observable<Category> {
-    const url = `${this.apiPath}/${id}`;
-    return this.http.delete(url).pipe(
-      catchError(this.handleError),
-      map(() => null)
-    );
-  }
-
-  jsonDataToCategory(jsonData: any): Category {
-    return jsonData as Category;
-  }
-
-  jsonDataToCategories(jsonData: any[]): Category[] {
-    return jsonData.map(element => element as Category);
-  }
-
-  handleError(error: any): Observable<any> {
-    console.log('Erro na requisicao: ', error);
-    return throwError(error);
-  }
 }
